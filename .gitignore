@@ -94,6 +94,9 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# WindIDE project settings
+*.wp[u,r]
+
 # mkdocs documentation
 /site
 

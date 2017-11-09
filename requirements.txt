@@ -1,0 +1,2 @@
+-e git://github.com/keithlee-co-uk/dbconnection.git#egg=dbconnection
+-e git://github.com/keithlee-co-uk/defaultargs#egg=defaultargs
