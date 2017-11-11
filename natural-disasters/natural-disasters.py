@@ -15,7 +15,7 @@ def main():
     email = arguments(
         ArgumentParser(usage="%%prog [options]")).parse_args().email
 
-    db = Sql()
+    db = Sql("eonet.db")
     db.create_tables()
 
     rest = Eonet()
