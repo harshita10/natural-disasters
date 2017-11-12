@@ -17,6 +17,23 @@ class Sql(object):
             engine="sqlite",
             connectionParameters=parameters)
 
+    def select_events(self):
+        sql = """
+        select c.title as category, e.eonetId, e.title as 'event_title',
+        e.description, s.sourceId, s.url 'source_url', g.date, co.latitude,
+        co.longitude, co.ordering
+        FROM categories c
+        JOIN eventcategories ec on ec.categoryId = c.id
+        JOIN events e on e.id = ec.eventId
+        JOIN eventsources es on es.eventId = e.id
+        JOIN sources s on s.id = es.sourceId
+        JOIN eventgeometries eg on eg.eventId = e.id
+        JOIN geometries g on g.id = eg.geometryId
+        JOIN coordinates co on co.geometryId = g.id
+        order by c.title, e.id,co.ordering
+        """
+        return self.db.select(sql)
+
     # ----------------------------------------------------------------------
     def insert_events(self, events):
         for event in events:

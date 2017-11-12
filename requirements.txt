@@ -1,3 +1,4 @@
 requests
+xlsxwriter
 git+git://github.com/keithlee-co-uk/dbconnection.git#egg=dbconnection
 git+git://github.com/keithlee-co-uk/defaultargs#egg=defaultargs

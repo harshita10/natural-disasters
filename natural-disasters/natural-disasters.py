@@ -1,27 +1,38 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datetime import date, timedelta, datetime
+from os import path
 
 
 from defaultargs.defaultargs import ArgumentParser, defaultargs
 
 from sqlitesql import Sql
 from api import Eonet
+from eonetfile import EonetFile
+from eonetemail import Email
 
 
 # ----------------------------------------------------------------------
 def main():
 
-    email = arguments(
+    toAddress = arguments(
         ArgumentParser(usage="%%prog [options]")).parse_args().email
 
-    db = Sql("eonet.db")
+    db = Sql()
     db.create_tables()
 
     rest = Eonet()
     events = rest.events(days())
     filteredEvents = filter_events(events)
     db.insert_events(filteredEvents)
+    dbevents = db.select_events()
+
+    f = EonetFile(dbevents)
+    thisFile = path.join(path.expanduser("~"), "eonetData.xlsx")
+    f.write_file(thisFile)
+
+    e = Email(thisFile, toAddress)
+    e.send()
 
 
 # ----------------------------------------------------------------------
