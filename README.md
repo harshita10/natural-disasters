@@ -63,3 +63,5 @@ python natural-disasters/natural-disasters/natural-disasters.py [options]
 * An configuration option to specify the smtp server
 
 * Additional flexabilty for the placement of the report and database files
+
+* Allow more choice of filters on events
