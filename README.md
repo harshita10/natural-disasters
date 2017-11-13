@@ -32,7 +32,7 @@ python natural-disasters/natural-disasters/natural-disasters.py [options]
 * place the database in memory
 * place the file Eonet.xlsx in the user's home
 
-~~~
+--
 
 `python natural-disasters/natural-disasters/natural-disasters.py --email user@localhost --file reportFile --db Eonet.db`
 
