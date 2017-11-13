@@ -21,13 +21,12 @@ class Email(object):
         msg.attach(text)
 
         attachment = MIMEBase('application', "octet-stream")
-        attachment.set_payload(open(filepath,"rb").read())
+        attachment.set_payload(open(filepath, "rb").read())
         encoders.encode_base64(attachment)
         attachment.add_header('Content-Disposition',
                               'attachment; filename="{}"'.format(
                                   path.basename(filepath)))
         msg.attach(attachment)
-
 
         msg['From'] = "no-reply@maplecroft.com"
         msg['To'] = toAddress
@@ -58,7 +57,7 @@ class Email(object):
                 "SMTPRecipientsRefused while attempting to" +
                 " send an email - Probably a blank email address {}".format(
                     self.msg['To'])
-        )
+            )
             raise
 
         smtp.close()

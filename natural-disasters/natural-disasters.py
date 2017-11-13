@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 from datetime import date, timedelta, datetime
 from os import path
+import configparser
 
 
 from defaultargs.defaultargs import ArgumentParser, defaultargs
@@ -15,10 +16,14 @@ from eonetemail import Email
 # ----------------------------------------------------------------------
 def main():
 
-    toAddress = arguments(
-        ArgumentParser(usage="%%prog [options]")).parse_args().email
+    args = arguments(ArgumentParser(usage="%%prog [options]")).parse_args()
+    emailAddress = address(args)
+    reportFile = report_file(args)
 
-    db = Sql()
+    if args.dbfile:
+        db = Sql(path.join(path.expanduser("~"), args.dbfile))
+    else:
+        db = Sql()
     db.create_tables()
 
     rest = Eonet()
@@ -28,11 +33,36 @@ def main():
     dbevents = db.select_events()
 
     f = EonetFile(dbevents)
-    thisFile = path.join(path.expanduser("~"), "eonetData.xlsx")
+    thisFile = path.join(path.expanduser("~"), reportFile)
     f.write_file(thisFile)
 
-    e = Email(thisFile, toAddress)
+    e = Email(thisFile, emailAddress)
     e.send()
+
+
+# ----------------------------------------------------------------------
+def report_file(args):
+    if args.file:
+        if args.file.endswith(".xlsx"):
+            fileName = args.file
+        else:
+            fileName = "{}.xlsx".format(args.file)
+    else:
+        fileName = "Eonet.xlsx"
+    return fileName
+
+
+# ----------------------------------------------------------------------
+def address(args):
+    home = path.expanduser("~")
+    if args.config and path.isfile(path.join(home, args.config)):
+            config = configparser.ConfigParser()
+            config.read(path.join(home, args.config))
+            emailAddress = config['DEFAULT']['email']
+    else:
+        emailAddress = args.email
+
+    return emailAddress
 
 
 # ----------------------------------------------------------------------
@@ -40,7 +70,6 @@ def filter_events(events):
     filteredEvents = []
     firstThisMonth = first_of_month()
     firstLastMonth = first_of_last_month()
-
 
     for event in events:
         if in_category(event['categories']):
@@ -75,6 +104,7 @@ def first_of_last_month():
     lastMonth = (date.today() - timedelta(days=28))
     return date(lastMonth.year, lastMonth.month, 1)
 
+
 # ----------------------------------------------------------------------
 def days():
     """
@@ -89,9 +119,17 @@ def days():
 @defaultargs
 def arguments(parser):
     parser.add_argument(
-      "--email", "-e",
-      help="destination smtp email address"
-  )
+        "--email", "-e",
+        help="destination smtp email address"
+    )
+    parser.add_argument(
+        "--dbfile", "-d",
+        help="database file (sqlite)"
+    )
+    parser.add_argument(
+        "--file", "-f",
+        help="The .xlsx spreadsheet filename"
+    )
     return parser
 
 

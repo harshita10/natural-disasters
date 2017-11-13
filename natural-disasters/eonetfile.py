@@ -2,13 +2,13 @@
 
 import xlsxwriter
 
+
 ############################################################################
 class EonetFile(object):
 
     # ----------------------------------------------------------------------
     def __init__(self, events):
         self.eventList = []
-        #self.headings = events[0].keys()
         self.headings = ("category", "eonetId", "event title", "description",
                          "sourceId", "source url", "date", "latitude",
                          "longitude", "coordinate ordering")
@@ -22,8 +22,6 @@ class EonetFile(object):
     def write_file(self, filepath):
 
         self.workbook = xlsxwriter.Workbook(filepath)
-
-        # Create the worksheet
         self.worksheet = self.workbook.add_worksheet()
         row = 0
         for line in self.eventList:

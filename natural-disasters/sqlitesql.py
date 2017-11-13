@@ -92,7 +92,6 @@ class Sql(object):
         order = 1
         if geometry['type'].lower() == "polygon":
             for coordinate in geometry['coordinates']:
-                ## Order the Coordintaes
                 self.coordinate(order, coordinate, Id)
                 order += 1
         else:
@@ -280,7 +279,6 @@ class Sql(object):
         """
         self.db.change(sql)
 
-
     # ----------------------------------------------------------------------
     def sources_table(self):
         sql = """
@@ -315,4 +313,3 @@ class Sql(object):
         )
         """
         self.db.change(sql)
-

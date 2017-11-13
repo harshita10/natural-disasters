@@ -3,7 +3,6 @@
 import requests
 
 
-
 ############################################################################
 class Eonet(object):
 
@@ -11,8 +10,7 @@ class Eonet(object):
     def __init__(self):
         self.base = "http://eonet.sci.gsfc.nasa.gov/api/v2.1/"
 
-
- # ----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def events(self, days):
         url = "{}{}".format(self.base, "events")
         try:
@@ -26,4 +24,3 @@ class Eonet(object):
         response = r.json()
         if isinstance(response, dict):
             return response['events']
-
