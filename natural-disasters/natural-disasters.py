@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datetime import date, timedelta, datetime
+from dateutil.relativedelta import relativedelta
 from os import path
 import configparser
 
@@ -101,8 +102,7 @@ def first_of_month():
 
 # ----------------------------------------------------------------------
 def first_of_last_month():
-    lastMonth = (date.today() - timedelta(days=28))
-    return date(lastMonth.year, lastMonth.month, 1)
+    return (datetime.now() + relativedelta(months=-1)).replace(day=1).date()
 
 
 # ----------------------------------------------------------------------
