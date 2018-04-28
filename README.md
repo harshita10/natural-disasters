@@ -4,6 +4,8 @@ Reports on natural disaster data extracted from the EONET API from NASA
 
 ## Install
 
+Developed using Python 3.6 and untested with any other version but is expected to work with any version 3
+
 `pip install git+git://github.com/keithlee-co-uk/natural-disasters&&pip install -r natural-disaters/requirements.txt`
 
 
@@ -46,7 +48,7 @@ python natural-disasters/natural-disasters/natural-disasters.py [options]
 
 ### The code
 
-* natural-disasters.filter_events - In th spirit of 'clean code' and testing, this could be broken down more.
+* I need to make it a habit to write tests, preferably before I write functioning code.  
 
 
 ### My approach
